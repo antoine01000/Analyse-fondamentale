@@ -17,12 +17,10 @@ df = load_data()
 # Liste des tickers
 tickers = df['ticker'].unique()
 
-# Sélection utilisateur
-tickers_selection = st.multiselect(
-    "Choisissez une ou plusieurs entreprises :",
-    options=tickers,
+# Définir une valeur par défaut uniquement si elle est dans les données
 default = [t for t in ["AAPL", "MSFT"] if t in tickers]
 
+# Sélection utilisateur
 tickers_selection = st.multiselect(
     "Choisissez une ou plusieurs entreprises :",
     options=tickers,
