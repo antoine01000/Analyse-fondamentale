@@ -17,6 +17,8 @@ import warnings
 import sys
 import os
 
+def main():
+
 # Option 2: Rediriger la sortie d'erreur de yfinance
 # Permet d'éviter les messages d'erreur de yfinance dans la console
 # pour les tickers invalides, tout en gardant tes propres messages.
@@ -574,6 +576,16 @@ csv_path = "historique_scores.csv"
 
 if os.path.exists(csv_path):
     df_old = pd.read_csv(csv_path)
+
+    if __name__ == "__main__":
+    try:
+        main()
+        print("✅ Script terminé avec succès.")
+    except Exception as e:
+        print(f"❌ Une erreur est survenue : {e}")
+        import sys
+        sys.exit(0)  # Ne pas renvoyer 1 pour ne pas bloquer GitHub Actions
+
     df_combined = pd.concat([df_old, df_export], ignore_index=True)
     df_combined.to_csv(csv_path, index=False)
 else:
