@@ -6,15 +6,11 @@ import os
 # Titre de l'app
 st.title("📈 Évolution hebdomadaire des scores fondamentaux")
 
-
-# Titre de l'app
-st.title("📈 Évolution hebdomadaire des scores fondamentaux")
-
 # Bouton de rafraîchissement
 if st.button("🔄 Rafraîchir les données"):
     st.rerun()
 
-# Chargement des données
+# Chargement des données (pas de cache ici)
 def load_data():
     if not os.path.exists("historique_scores.csv"):
         st.warning("Le fichier historique_scores.csv est introuvable.")
@@ -24,22 +20,19 @@ def load_data():
     df['date'] = pd.to_datetime(df['date'])
     return df
 
+# Appel réel
 df = load_data()
 
-# Chargement des données
-@st.cache_data
-def load_data():
-    df = pd.read_csv("historique_scores.csv")
-    df['date'] = pd.to_datetime(df['date'])
-    return df
+# Diagnostic visuel
+st.write("✅ Fichier chargé :")
+st.dataframe(df)
 
-df = load_data()
+st.write("📊 Tickers trouvés :")
+st.write(df['ticker'].unique())
 
 # Liste des tickers
-tickers = df['ticker'].unique()
-
-# Définir une valeur par défaut uniquement si elle est dans les données
-default = [t for t in ["AAPL", "MSFT"] if t in tickers]
+tickers = df['ticker'].dropna().unique()
+default = [t for t in ["AAPL", "MSFT", "GOOG", "TSLA"] if t in tickers]
 
 # Sélection utilisateur
 tickers_selection = st.multiselect(
@@ -50,24 +43,3 @@ tickers_selection = st.multiselect(
 
 # Filtrage
 df_filtered = df[df['ticker'].isin(tickers_selection)]
-
-# Vérification
-if df_filtered.empty:
-    st.warning("Aucune donnée disponible pour la sélection.")
-else:
-    # Graphique interactif
-    fig = px.line(
-        df_filtered,
-        x='date',
-        y='Score_sur_20',
-        color='ticker',
-        markers=True,
-        title='Évolution du Score sur 20 par entreprise',
-        labels={'Score_sur_20': 'Note / 20'}
-    )
-    fig.update_layout(xaxis_title="Date", yaxis_title="Score sur 20")
-    st.plotly_chart(fig)
-
-    # Option : afficher la table
-    if st.checkbox("Afficher les données brutes"):
-        st.dataframe(df_filtered.sort_values(by="date", ascending=False))
