@@ -54,11 +54,19 @@ if not df_filtered.empty:
         title='Évolution du Score sur 20 par entreprise',
         labels={'Score_sur_20': 'Note / 20', 'date': 'Date'}
     )
+    # Axe X catégorique : on n'affiche que les dates présentes
+    fig.update_xaxes(
+        type='category',
+        tickmode='array',
+        tickvals=df_filtered['date'],
+        ticktext=df_filtered['date'].dt.strftime('%Y-%m-%d'),
+        tickangle=-45
+    )
     fig.update_layout(xaxis_title="Date", yaxis_title="Score sur 20")
     st.plotly_chart(fig, use_container_width=True)
 else:
     st.warning("Aucune donnée disponible pour la sélection.")
 
-# ---------- Affichage optionnel de la table ----------
+# ---------- Affichage optionnel de la table brute ----------
 if st.checkbox("Afficher les données brutes"):
     st.dataframe(df_filtered.sort_values(by="date", ascending=False))
