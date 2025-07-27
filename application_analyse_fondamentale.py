@@ -544,7 +544,7 @@ df_score_sorted = df_score.sort_values(by='Total_Score',ascending=False)
 
 
 # Affichage pour vérifier
-display(df_score_sorted)
+print(df_score_sorted)
 
 # Total score pondéré
 # On calcule le nombre de critères valides (non-NA) pour chaque ligne
@@ -566,7 +566,7 @@ df_score['Score_sur_20'] = df_score['Score_sur_20'].round(2)
 df_score_sorted = df_score.sort_values(by='Score_sur_20', ascending=False)
 
 # Affichage final pour vérifier
-display(df_score_sorted[['ticker', 'Total_Score', 'Score_sur_20']])
+print(df_score_sorted[['ticker', 'Total_Score', 'Score_sur_20']])
 
 # Garder en fichier cvs avec historisation
 
