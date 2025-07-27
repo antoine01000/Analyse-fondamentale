@@ -12,7 +12,7 @@ st.title("📈 Évolution hebdomadaire des scores fondamentaux")
 
 # Bouton de rafraîchissement
 if st.button("🔄 Rafraîchir les données"):
-    st.experimental_rerun()
+    st.rerun()
 
 # Chargement des données
 def load_data():
