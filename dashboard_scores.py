@@ -1,9 +1,30 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import os
 
 # Titre de l'app
 st.title("📈 Évolution hebdomadaire des scores fondamentaux")
+
+
+# Titre de l'app
+st.title("📈 Évolution hebdomadaire des scores fondamentaux")
+
+# Bouton de rafraîchissement
+if st.button("🔄 Rafraîchir les données"):
+    st.experimental_rerun()
+
+# Chargement des données
+def load_data():
+    if not os.path.exists("historique_scores.csv"):
+        st.warning("Le fichier historique_scores.csv est introuvable.")
+        return pd.DataFrame(columns=["ticker", "Total_Score", "Score_sur_20", "date"])
+    
+    df = pd.read_csv("historique_scores.csv")
+    df['date'] = pd.to_datetime(df['date'])
+    return df
+
+df = load_data()
 
 # Chargement des données
 @st.cache_data
