@@ -32,7 +32,9 @@ st.write(df['ticker'].dropna().unique())
 
 # --- Sélection des tickers ---
 tickers = df['ticker'].dropna().unique()
-default = [t for t in ["AAPL", "MSFT", "GOOG", "TSLA"] if t in tickers]
+
+# Par défaut, on sélectionne tous les tickers
+default = list(tickers)
 
 tickers_selection = st.multiselect(
     "Choisissez une ou plusieurs entreprises :",
