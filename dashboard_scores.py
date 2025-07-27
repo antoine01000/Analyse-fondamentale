@@ -21,7 +21,12 @@ tickers = df['ticker'].unique()
 tickers_selection = st.multiselect(
     "Choisissez une ou plusieurs entreprises :",
     options=tickers,
-    default=["AAPL", "MSFT"]
+default = [t for t in ["AAPL", "MSFT"] if t in tickers]
+
+tickers_selection = st.multiselect(
+    "Choisissez une ou plusieurs entreprises :",
+    options=tickers,
+    default=default
 )
 
 # Filtrage
