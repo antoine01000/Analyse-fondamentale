@@ -28,11 +28,19 @@ jobs:
       - name: Lancer l'analyse fondamentale
         run: |
           python application_analyse_fondamentale.py
-
       - name: Commit historique mis à jour
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add historique_scores.csv historique_metrics.csv
-          git commit -m "Mise à jour hebdomadaire des scores et metrics [auto]" || echo "Rien à committer"
-          git push
+          echo "📂 Contenu du repo après exécution :"  
+          ls -R .
+
+          # Si des modifications apparaissent, on commit et push  
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "🔄 Changements détectés, on commit :"
+            git add historique_scores.csv historique_metrics.csv
+            git commit -m "Mise à jour hebdo : scores & metrics [auto]"
+            git push
+          else
+            echo "✅ Aucune modification détectée, rien à committer."
+          fi
